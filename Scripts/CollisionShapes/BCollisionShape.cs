@@ -9,7 +9,6 @@ namespace BulletUnity
     {
         //rigidbody this collisionshape is attached to (on the same gameobject or first rigidbody parent)
         public BRigidBody rigidBody;
-        public virtual bool SupportsTransformScaling => false;
 
         protected CollisionShape collisionShapePtr = null;
         public bool drawGizmo = true;
@@ -46,21 +45,29 @@ namespace BulletUnity
         {
             get
             {
-                if (collisionShapePtr != null)
-                {
-                    return collisionShapePtr.LocalScaling.ToUnity();
-                }
-                else
-                {
-                    return m_localScaling;
-                }
+                return m_localScaling;
             }
             set
             {
                 m_localScaling = value;
                 if (collisionShapePtr != null)
                 {
-                    collisionShapePtr.LocalScaling = value.ToBullet();
+                    collisionShapePtr.LocalScaling = EffectiveScaling.ToBullet();
+                }
+            }
+        }
+        public Vector3 EffectiveScaling => Vector3.Scale(transform.lossyScale, m_localScaling);
+        public Vector3 BulletScaling
+        {
+            get
+            {
+                if (collisionShapePtr != null)
+                {
+                    return collisionShapePtr.LocalScaling.ToUnity();
+                }
+                else
+                {
+                    return EffectiveScaling;
                 }
             }
         }

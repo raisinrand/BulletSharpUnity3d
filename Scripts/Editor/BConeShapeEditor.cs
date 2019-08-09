@@ -26,10 +26,10 @@ public class BConeShapeEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        if (script.transform.localScale != Vector3.one)
-        {
-            EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
-        }
+        // if (script.transform.localScale != Vector3.one)
+        // {
+        //     EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
+        // }
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.Height = EditorGUILayout.FloatField("Height", script.Height);
         script.LocalScaling = EditorGUILayout.Vector3Field("Local Scaling", script.LocalScaling);

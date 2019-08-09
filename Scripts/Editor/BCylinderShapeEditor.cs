@@ -19,10 +19,10 @@ public class BCylinderShapeEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        if (script.transform.localScale != Vector3.one)
-        {
-            EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
-        }
+        // if (script.transform.localScale != Vector3.one)
+        // {
+        //     EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
+        // }
         script.drawGizmo = EditorGUILayout.Toggle("Draw Gizmo", script.drawGizmo);
         script.HalfExtent = EditorGUILayout.Vector2Field("Extents", script.HalfExtent);
         Rect position = EditorGUILayout.BeginHorizontal();

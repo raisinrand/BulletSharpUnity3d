@@ -56,7 +56,7 @@ namespace BulletUnity {
                                true);
             }
             BvhTriangleMeshShape ms = new BvhTriangleMeshShape(tm, true);
-            ms.LocalScaling = m_localScaling.ToBullet();
+            ms.LocalScaling = EffectiveScaling.ToBullet();
             return ms;
         }
 

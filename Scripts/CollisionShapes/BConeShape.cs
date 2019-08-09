@@ -52,13 +52,13 @@ namespace BulletUnity
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            BUtility.DebugDrawCone(position, rotation, LocalScaling, radius, height, 1, Color.yellow);
+            BUtility.DebugDrawCone(position, rotation, BulletScaling, radius, height, 1, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()
         {
             ConeShape cs = new ConeShape(radius, height);
-            cs.LocalScaling = m_localScaling.ToBullet();
+            cs.LocalScaling = EffectiveScaling.ToBullet();
             cs.Margin = m_Margin;
             return cs;
         }
@@ -68,7 +68,7 @@ namespace BulletUnity
             if (collisionShapePtr == null)
             {
                 collisionShapePtr = new ConeShape(radius, height);
-                ((ConeShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                ((ConeShape)collisionShapePtr).LocalScaling = EffectiveScaling.ToBullet();
             }
             return collisionShapePtr;
         }

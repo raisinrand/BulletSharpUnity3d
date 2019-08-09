@@ -229,7 +229,7 @@ namespace BulletUnity {
 
             Gizmos.color = color;
 
-            radius *= radius * scale[(((int)upAxis) + 2) % 3];
+            radius *= scale[(((int)upAxis) + 2) % 3];
             halfHeight *= scale[(int)upAxis];
 
             Vector3 capStart = Vector3.zero;

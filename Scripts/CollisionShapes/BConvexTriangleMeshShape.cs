@@ -47,7 +47,7 @@ namespace BulletUnity
                                true);
             }
             ConvexTriangleMeshShape ms = new ConvexTriangleMeshShape(tm);
-            ms.LocalScaling = m_localScaling.ToBullet();
+            ms.LocalScaling = EffectiveScaling.ToBullet();
             ms.Margin = m_Margin;
             return ms;
         }

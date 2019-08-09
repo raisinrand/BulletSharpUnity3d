@@ -33,14 +33,6 @@ namespace BulletUnity
                 }
             }
         }
-        //radius with scaling applied
-        public float ScaledRadius
-        {
-            get
-            {
-                return Radius*FinalScaling[(((int)upAxis) + 2) % 3];
-            }
-        }
 
         //input height
         [SerializeField]
@@ -59,14 +51,6 @@ namespace BulletUnity
                 {
                     height = value;
                 }
-            }
-        }
-        //height with scaling applied
-        public float ScaledHeight
-        {
-            get
-            {
-                 return Height*FinalScaling[(int)upAxis];
             }
         }
 
@@ -89,16 +73,6 @@ namespace BulletUnity
             }
         }
 
-        //final scale passed to bullet
-        public Vector3 FinalScaling
-        {
-            get{
-                Vector3 scale = Vector3.Scale(LocalScaling,transform.lossyScale);
-                // scale[(int)upAxis] *= 1 + (2*radius/height);
-                return scale;
-            }
-        }
-
         public override void OnDrawGizmosSelected()
         {
             if (drawGizmo == false)
@@ -108,7 +82,7 @@ namespace BulletUnity
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
 
-            BUtility.DebugDrawCapsule(position, rotation, FinalScaling, radius, height*0.5f, (int)upAxis, Gizmos.color);
+            BUtility.DebugDrawCapsule(position, rotation, BulletScaling, radius, height*0.5f, (int)upAxis, Gizmos.color);
         }
 
         CapsuleShape _CreateCapsuleShape()
@@ -130,7 +104,7 @@ namespace BulletUnity
             {
                 Debug.LogError("invalid axis value");
             }
-            cs.LocalScaling = FinalScaling.ToBullet();
+            cs.LocalScaling = EffectiveScaling.ToBullet();
             cs.Margin = m_Margin;
             return cs;
         }

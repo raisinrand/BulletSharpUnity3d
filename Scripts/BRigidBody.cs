@@ -486,9 +486,9 @@ namespace BulletUnity
             }
             else m_collisionShape.rigidBody = this;
 
-            if (!m_collisionShape.SupportsTransformScaling && transform.localScale != UnityEngine.Vector3.one) {
-				Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);
-            }
+            // if (transform.localScale != UnityEngine.Vector3.one) {
+			// 	Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);
+            // }
 
             CollisionShape cs = m_collisionShape.GetCollisionShape();
             if (m_motionState == null)

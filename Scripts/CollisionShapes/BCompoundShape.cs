@@ -93,7 +93,7 @@ namespace BulletUnity
 
                 cs.AddChildShape(m, chcs);
             }
-            cs.LocalScaling = m_localScaling.ToBullet();
+            cs.LocalScaling = EffectiveScaling.ToBullet();
             cs.Margin = m_Margin;
             return cs;
         }
