@@ -40,6 +40,8 @@ namespace BulletUnity {
             Gizmos.color = color;
             Vector3 start = position;
 
+            scale = new Vector3(scale.x,scale.x,scale.x);
+
             Vector3 xoffs = new Vector3(radius.x * scale.x, 0, 0);
             Vector3 yoffs = new Vector3(0, radius.y * scale.y, 0);
             Vector3 zoffs = new Vector3(0, 0, radius.z * scale.z);
