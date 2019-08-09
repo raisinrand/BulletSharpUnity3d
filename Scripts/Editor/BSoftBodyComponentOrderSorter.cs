@@ -8,7 +8,6 @@ using System.Linq;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.Networking;
-using BulletUnity.Primitives;
 using BulletUnity;
 
 public class BSoftBodyComponentOrderSorter : ScriptableObject
@@ -21,7 +20,6 @@ public class BSoftBodyComponentOrderSorter : ScriptableObject
 
             // Add your types here in the order you want them to be in the inspector.
            typeof (BSoftBody),
-           typeof (BPrimitive), //if present
  
             typeof (MeshFilter),
             typeof (MeshRenderer),

@@ -71,7 +71,7 @@ namespace BulletUnity
             mesh = meshSettings.Build();
             if (mesh == null)
             {
-                Debug.LogError("Could not build mesh from meshSettings for " + this);
+                // Debug.LogError("Could not build mesh from meshSettings for " + this);
                 return false;
             }
 

@@ -34,16 +34,10 @@ namespace BulletUnity
 
         Color GUIBlue = new Color32(82, 140, 255, 255);
 
-        BAnyMeshSettingsForEditor inspectorMeshSettings;
-
         public void OnEnable()
         {
             bSoftBodyTarget = (BSoftBody)target;
             softBodySettings = serializedObject.FindProperty("_softBodySettings");
-            if (inspectorMeshSettings == null)
-            {
-                inspectorMeshSettings = new BAnyMeshSettingsForEditor();
-            }
         }
 
 
@@ -61,10 +55,11 @@ namespace BulletUnity
             //sb.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, sb.m_groupsIBelongTo);
             //sb.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, sb.m_collisionMask);
 
-            if (bSoftBodyTarget is BSoftBodyWMesh)
-            {
-                DrawCustomMeshSettingsOptions();
-            }
+            // if (bSoftBodyTarget is BSoftBodyWMesh)
+            // {
+            //     DrawCustomMeshSettingsOptions();
+            // }
+            
 
             DrawPropertiesExcluding(serializedObject, hideMe); //Draw settings after the default inspector
             
@@ -144,90 +139,87 @@ namespace BulletUnity
 
         
         //Hackish method to get past Unity serialization
-        void DrawCustomMeshSettingsOptions()
-        {
+        // void DrawCustomMeshSettingsOptions()
+        // {
 
-            EditorGUILayout.LabelField("Generate Custom Mesh?",EditorStyles.boldLabel);
+        //     EditorGUILayout.LabelField("Generate Custom Mesh?",EditorStyles.boldLabel);//BAnyMeshSettingsForEditor.Instance;
 
-            //Get Instance
-            BAnyMeshSettingsForEditor bAny = inspectorMeshSettings; //BAnyMeshSettingsForEditor.Instance;
+        //     //Build it!
+        //     if (EditorHelpers.InspectorButton("Update Mesh", 100, 15, GUIBlue, "New/Change mesh"))
+        //     {
+        //         ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
+        //         bSoftBodyTarget.BuildSoftBody();
+        //     }
 
-            //Build it!
-            if (EditorHelpers.InspectorButton("Update Mesh", 100, 15, GUIBlue, "New/Change mesh"))
-            {
-                ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
-                bSoftBodyTarget.BuildSoftBody();
-            }
+        //     bAny.immediateUpdate = EditorGUILayout.Toggle("Immediate Update", bAny.immediateUpdate);
 
-            bAny.immediateUpdate = EditorGUILayout.Toggle("Immediate Update", bAny.immediateUpdate);
+        //     //Select a mesh type
+        //     bAny.meshType = (PrimitiveMeshOptions)EditorGUILayout.EnumPopup("Mesh Type", bAny.meshType);
 
-            //Select a mesh type
-            bAny.meshType = (PrimitiveMeshOptions)EditorGUILayout.EnumPopup("Mesh Type", bAny.meshType);
+        //     switch (bAny.meshType)
+        //     {
+        //         case PrimitiveMeshOptions.UserDefinedMesh:
+        //             bAny.userMesh = (Mesh) EditorGUILayout.ObjectField(bAny.userMesh, typeof(Mesh),false);
+        //             break;
+        //         case PrimitiveMeshOptions.Box:
+        //             bAny.extents = EditorGUILayout.Vector3Field("Extents", bAny.extents);
+        //             break;
+        //         case PrimitiveMeshOptions.Sphere:
+        //             bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+        //             bAny.numLongitudeLines = EditorGUILayout.IntField("numLongitudeLines", bAny.numLongitudeLines);
+        //             bAny.numLatitudeLines = EditorGUILayout.IntField("numLatitudeLines", bAny.numLatitudeLines);
 
-            switch (bAny.meshType)
-            {
-                case PrimitiveMeshOptions.UserDefinedMesh:
-                    bAny.userMesh = (Mesh) EditorGUILayout.ObjectField(bAny.userMesh, typeof(Mesh),false);
-                    break;
-                case PrimitiveMeshOptions.Box:
-                    bAny.extents = EditorGUILayout.Vector3Field("Extents", bAny.extents);
-                    break;
-                case PrimitiveMeshOptions.Sphere:
-                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
-                    bAny.numLongitudeLines = EditorGUILayout.IntField("numLongitudeLines", bAny.numLongitudeLines);
-                    bAny.numLatitudeLines = EditorGUILayout.IntField("numLatitudeLines", bAny.numLatitudeLines);
+        //             break;
+        //         case PrimitiveMeshOptions.Cylinder:
+        //             bAny.height = EditorGUILayout.FloatField("height", bAny.height);
+        //             bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+        //             bAny.nbSides = EditorGUILayout.IntField("nbSides", bAny.nbSides);
+        //             break;
+        //         case PrimitiveMeshOptions.Cone:
+        //             bAny.height = EditorGUILayout.FloatField("height", bAny.height);
+        //             bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+        //             bAny.nbSides = EditorGUILayout.IntField("nbSides", bAny.nbSides);
+        //             break;
+        //         case PrimitiveMeshOptions.Pyramid:
+        //             bAny.height = EditorGUILayout.FloatField("height", bAny.height);
+        //             bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
+        //             break;
+        //         case PrimitiveMeshOptions.Bunny:
+        //             break;
+        //         case PrimitiveMeshOptions.Plane:
+        //             bAny.length = EditorGUILayout.FloatField("length", bAny.length);
+        //             bAny.width = EditorGUILayout.FloatField("width", bAny.width);
+        //             bAny.resX = EditorGUILayout.IntField("resX", bAny.resX);
+        //             bAny.resZ = EditorGUILayout.IntField("resZ", bAny.resZ);
+        //             break;
+        //         default:
+        //             break;
+        //     }
 
-                    break;
-                case PrimitiveMeshOptions.Cylinder:
-                    bAny.height = EditorGUILayout.FloatField("height", bAny.height);
-                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
-                    bAny.nbSides = EditorGUILayout.IntField("nbSides", bAny.nbSides);
-                    break;
-                case PrimitiveMeshOptions.Cone:
-                    bAny.height = EditorGUILayout.FloatField("height", bAny.height);
-                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
-                    bAny.nbSides = EditorGUILayout.IntField("nbSides", bAny.nbSides);
-                    break;
-                case PrimitiveMeshOptions.Pyramid:
-                    bAny.height = EditorGUILayout.FloatField("height", bAny.height);
-                    bAny.radius = EditorGUILayout.FloatField("radius", bAny.radius);
-                    break;
-                case PrimitiveMeshOptions.Bunny:
-                    break;
-                case PrimitiveMeshOptions.Plane:
-                    bAny.length = EditorGUILayout.FloatField("length", bAny.length);
-                    bAny.width = EditorGUILayout.FloatField("width", bAny.width);
-                    bAny.resX = EditorGUILayout.IntField("resX", bAny.resX);
-                    bAny.resZ = EditorGUILayout.IntField("resZ", bAny.resZ);
-                    break;
-                default:
-                    break;
-            }
+        //     //limit the fields [Range()] doesnt work
+        //     bAny.extents.x = Mathf.Clamp(bAny.extents.x, 0f, 10000f);
+        //     bAny.extents.y = Mathf.Clamp(bAny.extents.y, 0f, 10000f);
+        //     bAny.extents.z = Mathf.Clamp(bAny.extents.z, 0f, 10000f);
+        //     bAny.radius = Mathf.Clamp(bAny.radius, 0f, 10000f);
+        //     bAny.numLatitudeLines = Mathf.Clamp(bAny.numLatitudeLines, 2, 100);
+        //     bAny.numLongitudeLines = Mathf.Clamp(bAny.numLongitudeLines, 2, 100);
+        //     bAny.height = Mathf.Clamp(bAny.height, 0, 100);
+        //     bAny.nbSides = Mathf.Clamp(bAny.nbSides, 2, 100);
 
-            //limit the fields [Range()] doesnt work
-            bAny.extents.x = Mathf.Clamp(bAny.extents.x, 0f, 10000f);
-            bAny.extents.y = Mathf.Clamp(bAny.extents.y, 0f, 10000f);
-            bAny.extents.z = Mathf.Clamp(bAny.extents.z, 0f, 10000f);
-            bAny.radius = Mathf.Clamp(bAny.radius, 0f, 10000f);
-            bAny.numLatitudeLines = Mathf.Clamp(bAny.numLatitudeLines, 2, 100);
-            bAny.numLongitudeLines = Mathf.Clamp(bAny.numLongitudeLines, 2, 100);
-            bAny.height = Mathf.Clamp(bAny.height, 0, 100);
-            bAny.nbSides = Mathf.Clamp(bAny.nbSides, 2, 100);
+        //     bAny.length = Mathf.Clamp(bAny.length, 0, 1000);
+        //     bAny.width = Mathf.Clamp(bAny.width, 0, 1000);
+        //     bAny.resX = Mathf.Clamp(bAny.resX, 2, 100);
+        //     bAny.resZ = Mathf.Clamp(bAny.resZ, 2, 100);
 
-            bAny.length = Mathf.Clamp(bAny.length, 0, 1000);
-            bAny.width = Mathf.Clamp(bAny.width, 0, 1000);
-            bAny.resX = Mathf.Clamp(bAny.resX, 2, 100);
-            bAny.resZ = Mathf.Clamp(bAny.resZ, 2, 100);
-
-            //AutoMagickally change settings is edited
-            if (GUI.changed && bAny.immediateUpdate) //Can apply settings on editor change
-            {
-                ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
-                bSoftBodyTarget.BuildSoftBody();
-            }
-            EditorGUILayout.LabelField("Mesh Settings", EditorStyles.boldLabel);
-            EditorGUILayout.Space();
-        }
+        //     //AutoMagickally change settings is edited
+        //     // if (GUI.changed && bAny.immediateUpdate) //Can apply settings on editor change
+        //     // {
+        //     //     ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
+        //     //     bSoftBodyTarget.BuildSoftBody();
+        //     // }
+        //     // EditorGUILayout.LabelField("Mesh Settings", EditorStyles.boldLabel);
+        //     // EditorGUILayout.Space();
+        // }
 
     }
 }
