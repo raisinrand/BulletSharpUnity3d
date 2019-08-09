@@ -19,7 +19,7 @@ namespace BulletUnity
 
         //used to hide specific serialized properties in the editor
         //Hide softBody Settings until we want to display it, also script name
-        private static readonly string[] hideMe = new string[] { "_softBodySettings", "m_Script"};
+        private static readonly string[] hideMe = new string[] { "_softBodySettings", "m_Script" };
 
         const string collisionTooltip = "Collisions flags\n" +
        "SDF_RS Rigid versus soft mask.\n" +
@@ -52,7 +52,14 @@ namespace BulletUnity
         {
             serializedObject.Update();
 
+            //Color GUIBlue = new Color32(82, 140, 255, 255);
+
             EditorHelpers.DrawLogoAndVersion();
+
+            //BSoftBody sb = (BSoftBody)target;
+            //sb.m_collisionFlags = BCollisionObjectEditor.RenderEnumMaskCollisionFlagsField(BCollisionObjectEditor.gcCollisionFlags, sb.m_collisionFlags);
+            //sb.m_groupsIBelongTo = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcGroupsIBelongTo, sb.m_groupsIBelongTo);
+            //sb.m_collisionMask = BCollisionObjectEditor.RenderEnumMaskCollisionFilterGroupsField(BCollisionObjectEditor.gcCollisionMask, sb.m_collisionMask);
 
             if (bSoftBodyTarget is BSoftBodyWMesh)
             {
@@ -89,7 +96,7 @@ namespace BulletUnity
             EditorGUILayout.Space();
 
             //bitmask field for collisions
-            bSoftBodyTarget.SoftBodySettings.config.Collisions = (BulletSharp.SoftBody.CollisionFlags) EditorGUILayout.EnumMaskField(gcCollisionTooltip, bSoftBodyTarget.SoftBodySettings.config.Collisions);
+            bSoftBodyTarget.SoftBodySettings.config.Collisions = (BulletSharp.SoftBody.CollisionFlags) EditorGUILayout.EnumFlagsField(gcCollisionTooltip, bSoftBodyTarget.SoftBodySettings.config.Collisions);
 
             EditorGUILayout.PropertyField(softBodySettings, gcSoftBodySettings, true);
 
@@ -152,7 +159,7 @@ namespace BulletUnity
                 bSoftBodyTarget.BuildSoftBody();
             }
 
-            bAny.imediateUpdate = EditorGUILayout.Toggle("Imediate Update", bAny.imediateUpdate);
+            bAny.immediateUpdate = EditorGUILayout.Toggle("Immediate Update", bAny.immediateUpdate);
 
             //Select a mesh type
             bAny.meshType = (PrimitiveMeshOptions)EditorGUILayout.EnumPopup("Mesh Type", bAny.meshType);
@@ -213,7 +220,7 @@ namespace BulletUnity
             bAny.resZ = Mathf.Clamp(bAny.resZ, 2, 100);
 
             //AutoMagickally change settings is edited
-            if (GUI.changed && bAny.imediateUpdate) //Can apply settings on editor change
+            if (GUI.changed && bAny.immediateUpdate) //Can apply settings on editor change
             {
                 ((BSoftBodyWMesh)bSoftBodyTarget).meshSettings.UserMesh = bAny.Build();
                 bSoftBodyTarget.BuildSoftBody();

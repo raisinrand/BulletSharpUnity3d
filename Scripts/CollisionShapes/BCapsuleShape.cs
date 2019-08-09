@@ -14,6 +14,7 @@ namespace BulletUnity
             z
         }
 
+        //input radius
         [SerializeField]
         protected float radius = 1f;
         public float Radius
@@ -32,7 +33,16 @@ namespace BulletUnity
                 }
             }
         }
+        //radius with scaling applied
+        public float ScaledRadius
+        {
+            get
+            {
+                return Radius*FinalScaling[(((int)upAxis) + 2) % 3];
+            }
+        }
 
+        //input height
         [SerializeField]
         protected float height = 2f;
         public float Height
@@ -49,6 +59,14 @@ namespace BulletUnity
                 {
                     height = value;
                 }
+            }
+        }
+        //height with scaling applied
+        public float ScaledHeight
+        {
+            get
+            {
+                 return Height*FinalScaling[(int)upAxis];
             }
         }
 
@@ -71,6 +89,16 @@ namespace BulletUnity
             }
         }
 
+        //final scale passed to bullet
+        public Vector3 FinalScaling
+        {
+            get{
+                Vector3 scale = Vector3.Scale(LocalScaling,transform.lossyScale);
+                // scale[(int)upAxis] *= 1 + (2*radius/height);
+                return scale;
+            }
+        }
+
         public override void OnDrawGizmosSelected()
         {
             if (drawGizmo == false)
@@ -79,16 +107,8 @@ namespace BulletUnity
             }
             UnityEngine.Vector3 position = transform.position;
             UnityEngine.Quaternion rotation = transform.rotation;
-            if (upAxis == CapsuleAxis.x)
-            {
-                rotation = Quaternion.AngleAxis(90, transform.forward) * rotation;
-            }
-            else if (upAxis == CapsuleAxis.z)
-            {
-                rotation = Quaternion.AngleAxis(90, transform.right) * rotation;
-            }
-            BUtility.DebugDrawCapsule(position, rotation, LocalScaling, radius, height / 2f, 1, Gizmos.color);
 
+            BUtility.DebugDrawCapsule(position, rotation, FinalScaling, radius, height*0.5f, (int)upAxis, Gizmos.color);
         }
 
         CapsuleShape _CreateCapsuleShape()
@@ -110,7 +130,7 @@ namespace BulletUnity
             {
                 Debug.LogError("invalid axis value");
             }
-            cs.LocalScaling = m_localScaling.ToBullet();
+            cs.LocalScaling = FinalScaling.ToBullet();
             cs.Margin = m_Margin;
             return cs;
         }

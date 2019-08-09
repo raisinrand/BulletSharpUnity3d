@@ -253,7 +253,7 @@ namespace BulletUnity
     public class BAnyMeshSettingsForEditor : BAnyMeshSettings
     {
 
-        public bool imediateUpdate = true;
+        public bool immediateUpdate = true;
 
         protected static BAnyMeshSettingsForEditor instance;
 

@@ -23,10 +23,6 @@ public class BCompoundShapeEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        if (script.transform.localScale != Vector3.one)
-        {
-            EditorGUILayout.HelpBox("This shape doesn't support scale of the object.\nThe scale must be one", MessageType.Warning);
-        }
         script.drawGizmo = EditorGUILayout.Toggle("Draw Gizmo", script.drawGizmo);
 
         EditorGUILayout.PropertyField(shapes, true);

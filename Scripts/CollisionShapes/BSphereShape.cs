@@ -24,23 +24,23 @@ namespace BulletUnity
                 }
             }
         }
+        //final scale passed to bullet
+        public Vector3 FinalScaling => Vector3.Scale(LocalScaling,transform.lossyScale);
 
         public override void OnDrawGizmosSelected()
         {
-            if (drawGizmo == false)
-            {
+            if (!drawGizmo)
                 return;
-            }
-            Vector3 position = transform.position;
-            Quaternion rotation = transform.rotation;
-            BUtility.DebugDrawSphere(position, rotation, LocalScaling, Vector3.one * radius, Color.yellow);
+                
+            UnityEngine.Vector3 position = transform.position;
+            UnityEngine.Quaternion rotation = transform.rotation;
+            BUtility.DebugDrawSphere(position, rotation, FinalScaling, Vector3.one * radius, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()
         {
             SphereShape ss = new SphereShape(radius);
-            ss.LocalScaling = m_localScaling.ToBullet();
-            ss.Margin = m_Margin;
+            ss.LocalScaling = FinalScaling.ToBullet();
             return ss;
         }
 
@@ -49,7 +49,7 @@ namespace BulletUnity
             if (collisionShapePtr == null)
             {
                 collisionShapePtr = new SphereShape(radius);
-                ((SphereShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                ((SphereShape)collisionShapePtr).LocalScaling = FinalScaling.ToBullet();
             }
             return collisionShapePtr;
         }

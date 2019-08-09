@@ -1301,6 +1301,7 @@ namespace BulletUnity
             // Build new vertex buffer and remove "duplicate" verticies
             // that are within the given threshold.
             List<Vector3> newVerts = new List<Vector3>();
+            List<Color> newColors = new List<Color>();
             List<Vector2> newUVs = new List<Vector2>();
 
             int k = 0;
@@ -1316,6 +1317,8 @@ namespace BulletUnity
                 newVerts.Add(vert);
                 if (mesh.uv.Length > 0)  //some meshes dont have 
                     newUVs.Add(mesh.uv[k]);
+                if(mesh.colors.Length > 0)
+                    newColors.Add(mesh.colors[k]);
 
                 skipToNext:;
                 ++k;
@@ -1338,6 +1341,7 @@ namespace BulletUnity
 
             mesh.triangles = tris;
             mesh.vertices = newVerts.ToArray();
+            mesh.colors = newColors.ToArray();
             mesh.uv = newUVs.ToArray();
         }
 
@@ -1362,7 +1366,8 @@ namespace BulletUnity
             {
                 // duplicate vertices and uvs:
                 newVerts[j] = newVerts[j + szV] = vertices[j];
-                newUv[j] = newUv[j + szV] = uv[j];
+                if(uv.Length > 0)
+                    newUv[j] = newUv[j + szV] = uv[j];
                 // copy the original normals...
                 newNorms[j] = normals[j];
                 // and revert the new ones
@@ -1418,10 +1423,8 @@ namespace BulletUnity
             if (recalculateBounds)
                 mesh.RecalculateBounds();
 
-#if UNITY_EDITOR
             if (optimize)
-                UnityEditor.MeshUtility.Optimize(mesh);
-#endif
+                mesh.Optimize();
 
         }
     }

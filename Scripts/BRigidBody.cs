@@ -1,6 +1,7 @@
 ﻿using BulletSharp;
 using BulletUnity.Debugging;
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace BulletUnity
@@ -469,16 +470,24 @@ namespace BulletUnity
                 world.RemoveRigidBody(m_rigidBody);
             }
 
-            if (transform.localScale != UnityEngine.Vector3.one)
-            {
-                Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);
-            }
 
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null)
             {
-                Debug.LogErrorFormat("There was no collision shape component attached to this BRigidBody. {0}", name);
-                return false;
+                //automatically create compound shape from child colliders (that don't have another rigidbody parent)
+                m_collisionShape = gameObject.AddComponent<BCompoundShape>();
+                List<BCollisionShape> childShapes = new List<BCollisionShape>(GetComponentsInChildren<BCollisionShape>());
+                for(int i = 0; i < childShapes.Count; i++)
+                {
+                    //TODO: implement later
+            }
+
+                //add constraint to attach child rigidbodies to this rigidbody
+            }
+            else m_collisionShape.rigidBody = this;
+
+            if (!m_collisionShape.SupportsTransformScaling && transform.localScale != UnityEngine.Vector3.one) {
+				Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);
             }
 
             CollisionShape cs = m_collisionShape.GetCollisionShape();

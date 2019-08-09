@@ -13,23 +13,6 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
     public SkinnedMeshRenderer skinnedMesh;
 
     [Serializable]
-    public class BAnchor
-    {
-        [Tooltip("A Bullet Physics rigid body")]
-        public BRigidBody anchorRigidBody;
-        [Tooltip("A range in the green channel. Vertices with a vertex color green value in this range will be bound to this anchor")]
-        public float colRangeFrom = 0f;
-        [Tooltip("A range in the green channel. Vertices with a vertex color green value in this range will be bound to this anchor")]
-        public float colRangeTo = 1f;
-        [HideInInspector]
-        public List<int> anchorNodeIndexes = new List<int>();
-        [HideInInspector]
-        public List<float> anchorNodeStrength = new List<float>();
-        [HideInInspector]
-        public List<Vector3> anchorPosition = new List<Vector3>();
-    }
-
-    [Serializable]
     public class BoneAndNode
     {
         public Transform bone;
@@ -128,12 +111,6 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 
     // Use this for initialization
     public void BindBonesToSoftBodyAndNodesToAnchors() {
-        if (transform.localScale != Vector3.one)
-        {
-            Debug.LogError("The scale must be 1,1,1");
-            return;
-        }
-
         if (skinnedMesh == null)
         {
             Debug.LogError("The Skinned Mesh field has not been assigned.");
@@ -256,7 +233,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             for (int j = 0; j < anchors.Length; j++)
             {
                 if (cols[i].g > anchors[j].colRangeFrom &&
-                    cols[i].g < anchors[j].colRangeTo)
+                    cols[i].g <= anchors[j].colRangeTo)
                 {
                     anchors[j].anchorNodeIndexes.Add(i);
                     anchors[j].anchorNodeStrength.Add(cols[i].r);
@@ -266,10 +243,14 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
             }
         }
 
-        SoftBody sb = (SoftBody)m_collisionObject;
         Debug.LogFormat("Done binding bones to nodes and nodes to anchors. Found: {0} bones and {1} anchor nodes.", bone2idxMap.Length, numAnchorNodes);
 	}
 
+    public override void Start()
+    {
+        BindBonesToSoftBodyAndNodesToAnchors();
+        base.Start();
+    }
     void _addEdges(int p, int a, int b, List<Edge> edges, Vector3[] ns, Vector3[] vs)
     {
         Edge aa = new Edge(p, a, ns, vs);
@@ -377,10 +358,6 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
         {
             return false;
         }
-        if (transform.localScale != Vector3.one)
-        {
-            Debug.LogError("The scale must be 1,1,1");
-        }
         if (bone2idxMap == null || bone2idxMap.Length == 0)
         {
             Debug.LogError("No bones have been mapped to soft body nodes for object " + name);
@@ -411,12 +388,14 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 
         SoftBody m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
         m_collisionObject = m_BSoftBody;
+
+        m_BSoftBody.Scale(physicsSimMesh.transform.localScale.ToBullet());
+
         SoftBodySettings.ConfigureSoftBody(m_BSoftBody);         //Set SB settings
 
         //Set SB position to GO position
         m_BSoftBody.Rotate(physicsSimMesh.transform.rotation.ToBullet());
         m_BSoftBody.Translate(physicsSimMesh.transform.position.ToBullet());
-        m_BSoftBody.Scale(physicsSimMesh.transform.localScale.ToBullet());
 
         for (int i = 0; i < anchors.Length; i++)
         {

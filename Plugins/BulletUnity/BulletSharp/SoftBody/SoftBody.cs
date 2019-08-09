@@ -1368,7 +1368,7 @@ namespace BulletSharp.SoftBody
 			set { btSoftBody_Config_setKSS_SPLT_CL(_native, value); }
 		}
 
-		public float VolumeConversation
+		public float VolumeConservation
 		{
 			get { return btSoftBody_Config_getKVC(_native); }
 			set { btSoftBody_Config_setKVC(_native, value); }

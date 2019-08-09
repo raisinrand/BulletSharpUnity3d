@@ -196,7 +196,7 @@ namespace BulletUnity
         // Be aware that Start is not affected by script execution order so objects such as constraints should
         // make sure that objects they depend on have been added to the world before they add themselves.
         // This can be called more than once
-        internal virtual void Start()
+        public virtual void Start()
         {
             if (m_startHasBeenCalled == false)
             {

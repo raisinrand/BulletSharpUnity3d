@@ -7,21 +7,9 @@ namespace BulletUnity
     [System.Serializable]
     public abstract class BCollisionShape : MonoBehaviour, IDisposable
     {
-        public enum CollisionShapeType
-        {
-            // dynamic
-            BoxShape = 0,
-            SphereShape = 1,
-            CapsuleShape = 2,
-            CylinderShape = 3,
-            ConeShape = 4,
-            ConvexHull = 5,
-            CompoundShape = 6,
-
-            // static
-            BvhTriangleMeshShape = 7,
-            StaticPlaneShape = 8,
-        };
+        //rigidbody this collisionshape is attached to (on the same gameobject or first rigidbody parent)
+        public BRigidBody rigidBody;
+        public virtual bool SupportsTransformScaling => false;
 
         protected CollisionShape collisionShapePtr = null;
         public bool drawGizmo = true;

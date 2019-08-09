@@ -18,9 +18,6 @@ namespace BulletUnity
         [Range(0f, 1000f)]
         public float totalMass = 10f;
 
-        [Tooltip("Dont use scale here?")]
-        public Vector3 scale = Vector3.one;
-
         [Tooltip("???")]
         public bool fromFaces = true;
 
@@ -32,6 +29,9 @@ namespace BulletUnity
 
         [Tooltip("")]
         public bool generateClusters = false;
+
+        [Tooltip("Cluster count?")]
+        public int clusterK = 1;
 
         [Tooltip("int; ???")]
         public int bendingConstraintDistance = 2;
@@ -55,10 +55,8 @@ namespace BulletUnity
         /// Apply these SoftBody settings to this SoftBody
         /// </summary>
         /// <param name="softBody"></param>
-        public void ConfigureSoftBody(SoftBody softBody)
+        public void  ConfigureSoftBody(SoftBody softBody)
         {
-            softBody.Scale(scale.ToBullet());
-
             BulletSharp.SoftBody.Material pm = softBody.Materials[0];
 
             sBMaterial.SetSBMaterial(pm);
@@ -80,12 +78,13 @@ namespace BulletUnity
             if (randomizeConstraints)
                 softBody.RandomizeConstraints();
             
-            if (generateClusters)
-                softBody.GenerateClusters(0);
 
             softBody.SetTotalMass(totalMass, fromFaces);
 
-            softBody.SetPose(bvolume, bframe);
+            // softBody.SetPose(bvolume, bframe);
+            
+            if (generateClusters)
+                softBody.GenerateClusters(clusterK);
 
 
         }
@@ -102,7 +101,6 @@ namespace BulletUnity
         {
             sBpresetSelect = preset;  //save last applied preset
             totalMass = 10f;
-            scale = Vector3.one;
             fromFaces = true;
             bframe = true;
             bvolume = false;
@@ -154,7 +152,7 @@ namespace BulletUnity
                 case SBSettingsPresets.Volume:
 
                     sBMaterial.LinearStiffness = 0.45f;
-                    config.VolumeConversation = 20;
+                    config.VolumeConservation = 20;
                     totalMass = 50f;
                     fromFaces = true;
                     bvolume = true;
@@ -200,7 +198,7 @@ namespace BulletUnity
                     config.SoftRigidHardness = 0.1f;
                     config.SoftSoftHardness = 0.5f;
                     config.Timescale = 1;
-                    config.VolumeConversation = 0f;
+                    config.VolumeConservation = 0f;
                     config.VelocityCorrectionFactor = 1f;
                     config.VelocityIterations = 0;
 
@@ -269,7 +267,7 @@ namespace BulletUnity
 
         [Tooltip("Volume conservation coefficient; Volume conservation. Also, when setPose(true, ...)*** has been called, defines magnitude of the force used to conserve volume. (?)")]
         [Range(0f, float.PositiveInfinity)]
-        public float VolumeConversation = 0f;
+        public float VolumeConservation = 0f;
 
         [Tooltip("Pressure coefficient; Affects aerodynamics computations. Also, when setPose(true, ...)*** has been called, defines pressure used to conserve volume.")]
         //[Range(float.NegativeInfinity, float.PositiveInfinity)]
@@ -395,7 +393,7 @@ namespace BulletUnity
 
             sBConfig.DynamicFriction = DynamicFriction;
             sBConfig.Damping = Damping;
-            sBConfig.VolumeConversation = VolumeConversation;
+            sBConfig.VolumeConservation = VolumeConservation;
             sBConfig.Pressure = Pressure;
             sBConfig.AnchorHardness = AnchorHardness;    
             sBConfig.Collisions = Collisions;
@@ -418,9 +416,6 @@ namespace BulletUnity
             sBConfig.SoftRigidImpulseSplit = SoftRigidImpulseSplit;
             sBConfig.SoftKineticImpulseSplit = SoftKineticImpulseSplit; 
             sBConfig.SoftSoftImpulseSplit = SoftSoftImpulseSplit;
-
-
-
         }
     }
 

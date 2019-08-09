@@ -15,7 +15,7 @@ public class EditorInterface : Editor
 
 		//Check if the interface changed for perform an undo record.
 		EditorGUI.BeginChangeCheck();
-		debugType = (BDebug.DebugType)EditorGUILayout.EnumMaskField(debugType);
+		debugType = (BDebug.DebugType)EditorGUILayout.EnumFlagsField(debugType);
 		if(EditorGUI.EndChangeCheck()) 
 		{
 			Undo.RecordObject(undoObject, "Debug Mode");

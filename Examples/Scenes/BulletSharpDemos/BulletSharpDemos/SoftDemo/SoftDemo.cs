@@ -596,7 +596,7 @@ namespace SoftDemo
             SoftBody psb = SoftBodyHelpers.CreateEllipsoid(softBodyWorldInfo, new Vector3(35, 25, 0),
                 new Vector3(1, 1, 1) * 3, 512);
             psb.Materials[0].LinearStiffness = 0.45f;
-            psb.Cfg.VolumeConversation = 20;
+            psb.Cfg.VolumeConservation = 20;
             psb.SetTotalMass(50, true);
             psb.SetPose(true, false);
             SoftWorld.AddSoftBody(psb);
@@ -1010,7 +1010,7 @@ namespace SoftDemo
         {
             SoftBody psb = SoftBodyHelpers.CreateEllipsoid(softBodyWorldInfo, pos, new Vector3(1, 1, 1) * 3, 512);
             psb.Materials[0].LinearStiffness = 0.45f;
-            psb.Cfg.VolumeConversation = 20;
+            psb.Cfg.VolumeConservation = 20;
             psb.SetTotalMass(50, true);
             psb.SetPose(true, false);
             psb.GenerateClusters(1);

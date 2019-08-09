@@ -19,7 +19,7 @@ public static class OfflineBallSimulation {
 		CollisionDispatcher Dispatcher;
 	    BroadphaseInterface Broadphase;
         CollisionWorld cw;
-        ConstraintSolver Solver;
+        SequentialImpulseConstraintSolver Solver;
         BulletSharp.SoftBody.SoftBodyWorldInfo softBodyWorldInfo;
 
         //This should create a copy of the BPhysicsWorld with the same settings

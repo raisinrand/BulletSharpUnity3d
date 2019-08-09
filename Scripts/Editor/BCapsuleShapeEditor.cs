@@ -28,10 +28,6 @@ public class BCapsuleShapeEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        if (script.transform.localScale != Vector3.one)
-        {
-            EditorGUILayout.HelpBox("This shape doesn't support transform.scale.\nThe scale must be one. Use 'LocalScaling'", MessageType.Warning);
-        }
         script.drawGizmo = EditorGUILayout.Toggle("Draw Shape", script.drawGizmo);
         script.Radius = EditorGUILayout.FloatField("Radius", script.Radius);
         script.Height = EditorGUILayout.FloatField("Height", script.Height);

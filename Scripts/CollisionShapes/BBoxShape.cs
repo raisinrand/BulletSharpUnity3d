@@ -26,6 +26,8 @@ namespace BulletUnity
                 }
             }
         }
+        //final scale passed to bullet
+        public Vector3 FinalScaling => Vector3.Scale(LocalScaling,transform.lossyScale);
 
         public override void OnDrawGizmosSelected()
         {
@@ -35,14 +37,14 @@ namespace BulletUnity
             }
             Vector3 position = transform.position;
             Quaternion rotation = transform.rotation;
-            Vector3 scale = m_localScaling;
+            Vector3 scale = FinalScaling;
             BUtility.DebugDrawBox(position, rotation, scale, extents, Color.yellow);
         }
 
         public override CollisionShape CopyCollisionShape()
         {
             BoxShape bs = new BoxShape(extents.ToBullet());
-            bs.LocalScaling = m_localScaling.ToBullet();
+            bs.LocalScaling = FinalScaling.ToBullet();
             bs.Margin = m_Margin;
             return bs;
         }
@@ -52,7 +54,7 @@ namespace BulletUnity
             if (collisionShapePtr == null)
             {
                 collisionShapePtr = new BoxShape(extents.ToBullet());
-                ((BoxShape)collisionShapePtr).LocalScaling = m_localScaling.ToBullet();
+                ((BoxShape)collisionShapePtr).LocalScaling = FinalScaling.ToBullet();
                 collisionShapePtr.Margin = m_Margin;
             }
             return collisionShapePtr;
