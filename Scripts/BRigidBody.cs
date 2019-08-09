@@ -474,17 +474,9 @@ namespace BulletUnity
             m_collisionShape = GetComponent<BCollisionShape>();
             if (m_collisionShape == null)
             {
-                //automatically create compound shape from child colliders (that don't have another rigidbody parent)
-                m_collisionShape = gameObject.AddComponent<BCompoundShape>();
-                List<BCollisionShape> childShapes = new List<BCollisionShape>(GetComponentsInChildren<BCollisionShape>());
-                for(int i = 0; i < childShapes.Count; i++)
-                {
-                    //TODO: implement later
+                Debug.LogError($"Rigidbody on {name} needs a shape!");
+                return false;
             }
-
-                //add constraint to attach child rigidbodies to this rigidbody
-            }
-            else m_collisionShape.rigidBody = this;
 
             // if (transform.localScale != UnityEngine.Vector3.one) {
 			// 	Debug.LogErrorFormat("The local scale on {0} rigid body is not one. Bullet physics does not support scaling on a rigid body world transform. Instead alter the dimensions of the CollisionShape.", name);

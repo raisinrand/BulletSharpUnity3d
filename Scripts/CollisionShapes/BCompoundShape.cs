@@ -64,6 +64,10 @@ namespace BulletUnity
             // what about scaling not sure if it is handled correctly
             CompoundShape cs = new CompoundShape();
             CollisionShapeWithTransform[] collisionShapes = GetSubCollisionShapes(copyChildren);
+            for(int i = 0; i < colliders.Length; i++)
+            {
+                colliders[i].rigidBody = rigidBody;
+            }
             for (int i = 0; i < collisionShapes.Length; i++)
             {
                 CollisionShape chcs = collisionShapes[i].Shape;
