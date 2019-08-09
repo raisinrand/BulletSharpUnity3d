@@ -56,7 +56,7 @@ namespace BulletUnity
                 }
             }
         }
-        public Vector3 EffectiveScaling => Vector3.Scale(transform.lossyScale, m_localScaling);
+        public virtual Vector3 EffectiveScaling => Vector3.Scale(transform.lossyScale, m_localScaling);
         public Vector3 BulletScaling
         {
             get

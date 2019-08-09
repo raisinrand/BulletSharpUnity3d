@@ -30,6 +30,8 @@ namespace BulletUnity
                 Transform = transform;
             }
         }
+        
+        public override Vector3 EffectiveScaling => m_localScaling;
 
         [SerializeField]
         protected BCollisionShape[] colliders;
