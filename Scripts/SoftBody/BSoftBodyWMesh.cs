@@ -91,6 +91,7 @@ namespace BulletUnity
 
             SoftBody m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
             m_collisionObject = m_BSoftBody;
+            m_collisionObject.UserObject = this;
 
             m_BSoftBody.Scale(transform.localScale.ToBullet());
             

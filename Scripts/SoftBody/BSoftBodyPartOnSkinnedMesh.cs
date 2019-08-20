@@ -388,6 +388,7 @@ public class BSoftBodyPartOnSkinnedMesh : BSoftBody
 
         SoftBody m_BSoftBody = SoftBodyHelpers.CreateFromTriMesh(World.WorldInfo, bVerts, mesh.triangles);
         m_collisionObject = m_BSoftBody;
+        m_collisionObject.UserObject = this;
 
         m_BSoftBody.Scale(physicsSimMesh.transform.localScale.ToBullet());
 

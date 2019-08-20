@@ -42,6 +42,9 @@ namespace BulletUnity
         [Tooltip("???")]
         public bool randomizeConstraints = true;
 
+        [Tooltip("Margin for collisions. Higher value increases stability.")]
+        public float margin = 0.04f;
+
         public SBConfig config = new SBConfig();
 
         public SBMaterial sBMaterial = new SBMaterial();
@@ -80,11 +83,14 @@ namespace BulletUnity
             
 
             softBody.SetTotalMass(totalMass, fromFaces);
+            softBody.CollisionShape.Margin = margin;
 
-            // softBody.SetPose(bvolume, bframe);
+            softBody.SetPose(bvolume, bframe);
             
             if (generateClusters)
                 softBody.GenerateClusters(clusterK);
+
+
 
 
         }
